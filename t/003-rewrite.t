@@ -21,7 +21,7 @@ is($unlearned, 0, 'no unlearned kanji');
 is($nonheisig, 0, 'no nonheisig kanji');
 
 $text = '一二三、何、罹';
-is(rewrite($text), $text, 'no change for callbacks');
+is(rewrite($text), $text, 'no callbacks means no change');
 is($learned,   0, 'no learned kanji because no callbacks');
 is($unlearned, 0, 'no unlearned kanji because no callbacks');
 is($nonheisig, 0, 'no nonheisig kanji because no callbacks');
