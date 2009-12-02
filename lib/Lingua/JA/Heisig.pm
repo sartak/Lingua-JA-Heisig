@@ -10,18 +10,20 @@ use Sub::Exporter -setup => {
 
 do {
     my $kanji;
+    sub _kanji {
+        if (!$kanji) {
+            $kanji = join '', <DATA>;
+            $kanji =~ s/\s+//g;
+        }
 
-    sub _build_kanji {
-        return if $kanji;
-        $kanji = join '', <DATA>;
-        $kanji =~ s/\s+//g;
-    }
-
-    sub kanji {
-        _build_kanji();
-        return wantarray ? split '', $kanji : $kanji;
+        return $kanji;
     }
 };
+
+sub kanji {
+    my $kanji = _kanji();
+    return wantarray ? split '', $kanji : $kanji;
+}
 
 1;
 
