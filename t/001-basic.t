@@ -4,11 +4,11 @@ use utf8;
 use Test::More tests => 6;
 use Lingua::JA::Heisig -all;
 
-is((kanji_list)[0], '一');
-is((kanji_list)[1], '二');
-is((kanji_list)[2], '三');
+is((kanji)[0], '一');
+is((kanji)[1], '二');
+is((kanji)[2], '三');
 
-is(substr(kanji_string, 0, 1), '一');
-is(substr(kanji_string, 1, 1), '二');
-is(substr(kanji_string, 2, 1), '三');
+is(substr(scalar(kanji), 0, 1), '一');
+is(substr(scalar(kanji), 1, 1), '二');
+is(substr(scalar(kanji), 2, 1), '三');
 

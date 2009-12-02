@@ -5,7 +5,7 @@ use utf8;
 our $VERSION = 0.01;
 
 use Sub::Exporter -setup => {
-    exports => [qw(kanji_string kanji_list)],
+    exports => [qw(kanji)],
 };
 
 do {
@@ -17,14 +17,9 @@ do {
         $kanji =~ s/\s+//g;
     }
 
-    sub kanji_string {
+    sub kanji {
         _build_kanji();
-        return $kanji;
-    }
-
-    sub kanji_list {
-        _build_kanji();
-        return split '', $kanji;
+        return wantarray ? split '', $kanji : $kanji;
     }
 };
 
