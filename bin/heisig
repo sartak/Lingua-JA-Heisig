@@ -1,0 +1,21 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Lingua::JA::Heisig -learned;
+use Encode 'decode_utf8';
+use Term::ANSIColor;
+
+defined($ENV{HEISIG_LEARNED})
+    or die "Please set the HEISIG_LEARNED environment variable to the number of Heisig kanji you know.\n";
+
+my $in = decode_utf8("@ARGV" || do { join "\n", <> });
+
+my $out = rewrite($in, (
+    learned   => sub { color('green')      . $_ . color('reset') },
+    unlearned => sub { color('red')        . $_ . color('reset') },
+    nonheisig => sub { color('bold black') . $_ . color('reset') },
+));
+
+binmode \*STDOUT, ':utf8';
+print "$out\n";
+

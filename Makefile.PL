@@ -5,5 +5,6 @@ githubmeta;
 
 requires 'Sub::Exporter';
 
+install_script 'bin/heisig';
 WriteAll;
 
