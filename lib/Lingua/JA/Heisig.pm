@@ -5,7 +5,12 @@ use utf8;
 our $VERSION = 0.01;
 
 use Sub::Exporter -setup => {
-    exports => [qw(kanji)],
+    exports => [
+        qw(kanji),
+    ],
+    groups => {
+        learned => \&_build_learned,
+    },
 };
 
 do {
@@ -23,6 +28,26 @@ do {
 sub kanji {
     my $kanji = _kanji();
     return wantarray ? split '', $kanji : $kanji;
+}
+
+sub _build_learned {
+    my $class = shift;
+    my $group = shift;
+    my $arg   = shift;
+
+    my $up_to = $arg->{up_to};
+
+    my $learned   = substr(_kanji(), 0, $up_to);
+    my $unlearned = substr(_kanji(), $up_to);
+
+    my %is_learned = (
+        (map { $_ => 1 } split '', $learned),
+        (map { $_ => 0 } split '', $unlearned),
+    );
+
+    return {
+        is_learned => sub { $is_learned{$_[0]} },
+    };
 }
 
 1;
