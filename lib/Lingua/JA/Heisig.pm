@@ -47,6 +47,24 @@ sub _build_learned {
 
     return {
         is_learned => sub { $is_learned{$_[0]} },
+        rewrite    => sub {
+            my $text = shift;
+            my %cb = (
+                learned   => sub { $_ },
+                unlearned => sub { $_ },
+                nonheisig => sub { $_ },
+                @_,
+            );
+
+            $text =~ s[(\p{Han})][
+                local $_ = $1;
+                            $is_learned{$_} ? $cb{learned}->()
+                  : defined $is_learned{$_} ? $cb{unlearned}->()
+                                            : $cb{nonheisig}->()
+            ]ge;
+
+            return $text;
+        },
     };
 }
 
