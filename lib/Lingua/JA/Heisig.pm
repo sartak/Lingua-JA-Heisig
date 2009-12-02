@@ -4,6 +4,19 @@ use warnings;
 use utf8;
 our $VERSION = 0.01;
 
+do {
+    my $kanji = join '', <DATA>;
+    $kanji =~ s/\s+//g;
+
+    sub kanji_string {
+        return $kanji;
+    }
+
+    sub kanji_list {
+        return split '', $kanji;
+    }
+};
+
 1;
 
 =head1 NAME
