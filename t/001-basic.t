@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use utf8;
-use Test::More tests => 1;
+use Test::More tests => 6;
 use Lingua::JA::Heisig -all;
 
 is((kanji_list)[0], '一');
