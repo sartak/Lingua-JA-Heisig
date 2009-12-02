@@ -4,6 +4,10 @@ use warnings;
 use utf8;
 our $VERSION = 0.01;
 
+use Sub::Exporter -setup => {
+    exports => [qw(kanji_string kanji_list)],
+};
+
 do {
     my $kanji = join '', <DATA>;
     $kanji =~ s/\s+//g;
