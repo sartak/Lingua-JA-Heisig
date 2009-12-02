@@ -43,7 +43,7 @@ under the same terms as Perl itself.
 
 =cut
 
-__END__
+__DATA__
 
 一二三四五六七八九十
 口日月田目古吾冒朋明
