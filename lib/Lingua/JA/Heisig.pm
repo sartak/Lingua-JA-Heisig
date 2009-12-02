@@ -7,7 +7,7 @@ our $VERSION = 0.01;
 
 use Sub::Exporter -setup => {
     exports => [
-        qw(kanji),
+        qw(kanji heisig_number),
     ],
     groups => {
         learned => \&_build_learned,
@@ -23,6 +23,20 @@ do {
         }
 
         return $kanji;
+    }
+};
+
+do {
+    my $reverse;
+    sub heisig_number {
+        my $kanji = shift;
+
+        if (!$reverse) {
+            my $i = 0;
+            %$reverse = map { $_ => ++$i } split '', _kanji();
+        }
+
+        return $reverse->{$kanji};
     }
 };
 
