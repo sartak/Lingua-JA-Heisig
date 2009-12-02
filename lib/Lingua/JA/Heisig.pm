@@ -35,7 +35,7 @@ sub _build_learned {
     my $group = shift;
     my $arg   = shift;
 
-    my $up_to = $arg->{up_to};
+    my $up_to = $arg->{up_to} || $ENV{HEISIG_LEARNED};
 
     my $learned   = substr(_kanji(), 0, $up_to);
     my $unlearned = substr(_kanji(), $up_to);
