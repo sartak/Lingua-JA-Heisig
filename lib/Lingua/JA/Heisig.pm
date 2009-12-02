@@ -9,14 +9,21 @@ use Sub::Exporter -setup => {
 };
 
 do {
-    my $kanji = join '', <DATA>;
-    $kanji =~ s/\s+//g;
+    my $kanji;
+
+    sub _build_kanji {
+        return if $kanji;
+        $kanji = join '', <DATA>;
+        $kanji =~ s/\s+//g;
+    }
 
     sub kanji_string {
+        _build_kanji();
         return $kanji;
     }
 
     sub kanji_list {
+        _build_kanji();
         return split '', $kanji;
     }
 };
