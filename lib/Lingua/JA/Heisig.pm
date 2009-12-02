@@ -2,6 +2,7 @@ package Lingua::JA::Heisig;
 use strict;
 use warnings;
 use utf8;
+use 5.008005;
 our $VERSION = 0.01;
 
 use Sub::Exporter -setup => {
