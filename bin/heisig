@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Lingua::JA::Heisig -learned;
+use Lingua::JA::Heisig 'heisig_number', -learned;
 use Encode 'decode_utf8';
 use Term::ANSIColor;
 
@@ -12,7 +12,11 @@ my $in = decode_utf8("@ARGV" || do { join "\n", <> });
 
 my $out = rewrite($in, (
     learned   => sub { color('green')      . $_ . color('reset') },
-    unlearned => sub { color('red')        . $_ . color('reset') },
+    unlearned => sub {
+        my $number = heisig_number($_);
+        color('bold red') . $_ . color('reset')
+        . color('red') . "($number)" . color('reset')
+    },
     nonheisig => sub { color('bold black') . $_ . color('reset') },
 ));
 
