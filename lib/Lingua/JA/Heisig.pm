@@ -61,8 +61,9 @@ sub _build_learned {
     );
 
     return {
-        is_learned => sub { $is_learned{$_[0]} },
-        rewrite    => sub {
+        is_learned     => sub { $is_learned{$_[0]} },
+        learned_number => sub { $up_to },
+        rewrite        => sub {
             my $text = shift;
             my %cb = (
                 learned   => sub { $_ },
