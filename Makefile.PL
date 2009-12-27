@@ -6,5 +6,6 @@ githubmeta;
 requires 'Sub::Exporter';
 
 install_script 'bin/heisig';
+install_script 'bin/heisig-analyze';
 WriteAll;
 

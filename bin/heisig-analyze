@@ -1,0 +1,57 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Lingua::JA::Heisig 'heisig_number', -learned;
+use Encode 'decode_utf8';
+
+defined($ENV{HEISIG_LEARNED})
+    or die "Please set the HEISIG_LEARNED environment variable to the number of Heisig kanji you know.\n";
+
+my ($length, $learned, $unlearned, $nonheisig, $hiragana, $katakana, $next_10, $next_50) = (0) x 100;
+my $number = learned_number;
+
+while (<>) {
+    $_ = decode_utf8($_);
+
+    $length += length($_);
+
+    $hiragana += length $1 while /(\p{Hiragana}+)/g;
+    $katakana += length $1 while /(\p{Katakana}+)/g;
+
+    rewrite($_, (
+        learned   => sub { ++$learned   },
+        nonheisig => sub { ++$nonheisig },
+        unlearned => sub {
+            ++$unlearned;
+            my $n = heisig_number($_);
+            $next_10++ if $n <= $number + 10;
+            $next_50++ if $n <= $number + 50;
+        },
+    ));
+}
+
+my $hiragana_pct = sprintf '%.2f', 100 * $hiragana / $length;
+my $katakana_pct = sprintf '%.2f', 100 * $katakana / $length;
+
+my $kanji = $learned + $unlearned + $nonheisig;
+my $kanji_pct = sprintf '%.2f', 100 * $kanji / $length;
+
+my $learned_pct = sprintf '%.2f', 100 * $learned / $kanji;
+my $unlearned_pct = sprintf '%.2f', 100 * $unlearned / $kanji;
+my $nonheisig_pct = sprintf '%.2f', 100 * $nonheisig / $kanji;
+
+my $ten_pct   = sprintf '%.2f', 100 * $next_10 / $unlearned;
+my $fifty_pct = sprintf '%.2f', 100 * $next_50 / $unlearned;
+
+print << "EOH";
+Characters:   $length
+Hiragana:     $hiragana ($hiragana_pct%)
+Katakana:     $katakana ($katakana_pct%)
+Kanji:        $kanji ($kanji_pct%)
+  Known:      $learned ($learned_pct%)
+  Unknown:    $unlearned ($unlearned_pct%)
+    Next 10:  $next_10 ($ten_pct%)
+    Next 50:  $next_50 ($fifty_pct%)
+  Non-Heisig: $nonheisig ($nonheisig_pct%)
+EOH
+
