@@ -7,5 +7,6 @@ requires 'Sub::Exporter';
 
 install_script 'bin/heisig';
 install_script 'bin/heisig-analyze';
+install_script 'bin/grep-nonheisig';
 WriteAll;
 

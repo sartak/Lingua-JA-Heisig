@@ -1,0 +1,17 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Lingua::JA::Heisig 'heisig_number';
+use Encode 'decode_utf8';
+
+my $in = decode_utf8("@ARGV" || do { join "\n", <> });
+
+binmode \*STDOUT, ':utf8';
+
+for my $c (split '', $in) {
+    next unless $c =~ /\p{Han}/;
+    print $c if !heisig_number($c);
+}
+
+print "\n";
+
