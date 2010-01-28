@@ -7,7 +7,7 @@ our $VERSION = 0.01;
 
 use Sub::Exporter -setup => {
     exports => [
-        qw(kanji heisig_number),
+        qw(kanji heisig_number kanji_by_lesson),
     ],
     groups => {
         learned => \&_build_learned,
@@ -43,6 +43,74 @@ do {
 sub kanji {
     my $kanji = _kanji();
     return wantarray ? split '', $kanji : $kanji;
+}
+
+my @lessons = qw(
+       0
+      15
+      34
+      52
+      70
+      94
+     104
+     126
+     172
+     194
+     234
+     249
+     276
+     299
+     323
+     352
+     369
+     395
+     475
+     508
+     514
+     577
+     636
+     766
+     795
+     891
+     950
+    1026
+    1044
+    1085
+    1124
+    1183
+    1219
+    1247
+    1293
+    1332
+    1394
+    1426
+    1483
+    1530
+    1586
+    1615
+    1647
+    1681
+    1709
+    1756
+    1775
+    1805
+    1827
+    1852
+    1879
+    1903
+    1926
+    1977
+    2005
+    2025
+    2042
+);
+
+sub kanji_by_lesson {
+    my $lesson = shift;
+    return undef if $lesson < 1 || $lesson >= @lessons;
+    my $start = $lessons[$lesson - 1];
+    my $end = $lessons[$lesson];
+    return substr(scalar(kanji), $start, $end - $start);
 }
 
 sub _build_learned {
