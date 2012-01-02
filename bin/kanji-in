@@ -27,7 +27,7 @@ for my $type ('rtk1', 'rtk3', 'rtks', 'gaiji') {
     print "\n";
 
     my $prev_count = 0;
-    for my $kanji (sort { $kanji{$b} <=> $kanji{$a} } keys %kanji) {
+    for my $kanji (sort { $kanji{$b} <=> $kanji{$a} || (heisig_number($a)||-1) <=> (heisig_number($b)||-2) || $a cmp $b } keys %kanji) {
         if ($prev_count == $kanji{$kanji}) {
             print $kanji;
         }
