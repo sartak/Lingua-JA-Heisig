@@ -20,7 +20,7 @@ while (<>) {
 }
 
 for my $type ('rtk1', 'rtk3', 'rtks', 'gaiji') {
-    my %kanji = %{ $seen{$type} };
+    my %kanji = %{ $seen{$type} || next };
     my $total = grep { $type_of{$_} eq $type } keys %type_of;
     print "$type: " . keys(%kanji);
     print " / $total" unless $type eq 'gaiji';
