@@ -1,0 +1,42 @@
+#!/usr/bin/env perl
+use 5.14.0;
+use warnings;
+use utf8::all;
+use Lingua::JA::Heisig 'heisig_number', 'kanji';
+use Encode 'decode_utf8';
+use List::Util 'sum';
+
+my %type_of;
+my %seen;
+
+$type_of{$_} = 'rtk1' for ((kanji)[0..2041]);
+$type_of{$_} = 'rtk3' for ((kanji)[2042..3006]);
+$type_of{$_} = 'rtks' for ((kanji)[3007..3029]);
+
+while (<>) {
+    for my $kanji (/(\p{Han})/g) {
+        $seen{ $type_of{$kanji} || 'gaiji' }{$kanji}++;
+    }
+}
+
+for my $type ('rtk1', 'rtk3', 'rtks', 'gaiji') {
+    my %kanji = %{ $seen{$type} };
+    my $total = grep { $type_of{$_} eq $type } keys %type_of;
+    print "$type: " . keys(%kanji);
+    print " / $total" unless $type eq 'gaiji';
+    print "\n";
+
+    my $prev_count = 0;
+    for my $kanji (sort { $kanji{$b} <=> $kanji{$a} } keys %kanji) {
+        if ($prev_count == $kanji{$kanji}) {
+            print $kanji;
+        }
+        else {
+            print "\n" unless $prev_count == 0;
+            $prev_count = $kanji{$kanji};
+            print "$prev_count: $kanji";
+        }
+    }
+
+    print "\n";
+}
