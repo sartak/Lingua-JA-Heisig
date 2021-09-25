@@ -14,7 +14,7 @@ $type_of{$_} = 'rtk3' for ((kanji)[2042..3006]);
 $type_of{$_} = 'rtks' for ((kanji)[3007..3029]);
 
 while (<>) {
-    for my $kanji (/(\p{Han})/g) {
+    for my $kanji (/(\p{Unified_Ideograph})/g) {
         $seen{ $type_of{$kanji} || 'gaiji' }{$kanji}++;
     }
 }

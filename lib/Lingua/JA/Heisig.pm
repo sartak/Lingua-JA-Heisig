@@ -140,7 +140,7 @@ sub _build_learned {
                 @_,
             );
 
-            $text =~ s[(\p{Han})][
+            $text =~ s[(\p{Unified_Ideograph})][
                 local $_ = $1;
                             $is_learned{$_} ? $cb{learned}->()
                   : defined $is_learned{$_} ? $cb{unlearned}->()

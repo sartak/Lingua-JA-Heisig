@@ -9,7 +9,7 @@ my $in = decode_utf8("@ARGV" || do { join "\n", <> });
 binmode \*STDOUT, ':utf8';
 
 for my $c (split '', $in) {
-    next unless $c =~ /\p{Han}/;
+    next unless $c =~ /\p{Unified_Ideograph}/;
     print $c if !heisig_number($c);
 }
 
